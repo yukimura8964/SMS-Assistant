@@ -54,7 +54,9 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    viewBinding {
+        enabled = true
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -75,15 +77,49 @@ android {
             keyPassword getMyKeyPassword()
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
+    def room_version = "2.2.5"
+    def retrofit2_version = "2.9.0"
+    def okhttp3_version = "4.8.1"
+    def gson_version = "2.8.6"
+    def rxjava_version = "2.2.19"
+    def rxandroid_version = "2.1.1"
+    def stetho_version = "1.5.1"
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation("com.google.android.material:material:1.2.1")
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    //rxpermissions
+    implementation("com.github.tbruyelle:rxpermissions:0.10.2")
+    //rxjava
+    implementation("io.reactivex.rxjava2:rxjava:$rxjava_version")
+    implementation("io.reactivex.rxjava2:rxandroid:$rxandroid_version")
+    //gson
+    implementation("com.google.code.gson:gson:$gson_version")
+    //room
+    implementation("androidx.room:room-runtime:${room_version}")
+    annotationProcessor("androidx.room:room-compiler:${room_version}")
+    implementation("androidx.room:room-ktx:${room_version}")
+    implementation("androidx.room:room-rxjava2:${room_version}")
+    testImplementation("androidx.room:room-testing:${room_version}")
+    //squareup
+    implementation("com.squareup.retrofit2:retrofit:${retrofit2_version}")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:${retrofit2_version}")
+    implementation("com.squareup.retrofit2:converter-gson:${retrofit2_version}")
+    implementation("com.squareup.okhttp3:okhttp:${okhttp3_version}")
+    //stetho
+    implementation("com.facebook.stetho:stetho:${stetho_version}")
+    implementation("com.facebook.stetho:stetho-okhttp3:${stetho_version}")
 }
