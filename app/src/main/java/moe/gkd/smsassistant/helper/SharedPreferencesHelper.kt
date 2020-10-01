@@ -15,6 +15,9 @@ object SharedPreferencesHelper {
 
         //是否开机自动启动
         var isAutoStarting by boolean()
+
+        //是否启用邮件转发
+        var isEnableEmailForward by boolean()
     }
 
     abstract class Delegates {
@@ -44,6 +47,16 @@ object SharedPreferencesHelper {
 
             override fun getValue(thisRef: Any, property: KProperty<*>): String? {
                 return preferences.getString(property.name, defaultValue)
+            }
+        }
+
+        fun int(defaultValue: Int = 0) = object : ReadWriteProperty<Any, Int> {
+            override fun setValue(thisRef: Any, property: KProperty<*>, value: Int) {
+                preferences.edit().putInt(property.name, value).apply()
+            }
+
+            override fun getValue(thisRef: Any, property: KProperty<*>): Int {
+                return preferences.getInt(property.name, defaultValue)
             }
         }
 
