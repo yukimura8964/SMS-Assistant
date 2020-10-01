@@ -3,6 +3,7 @@ package moe.gkd.smsassistant
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import moe.gkd.smsassistant.helper.SharedPreferencesHelper
 
 /**
  * 自动启动
@@ -10,11 +11,8 @@ import android.content.Intent
 class AutoStartingReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        val serviceIntent = Intent(context, SmsBroadcastService::class.java)
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            context.startForegroundService(serviceIntent)
-        } else {
-            context.startService(serviceIntent)
+        if (SharedPreferencesHelper.Settings.isAutoStarting) {
+            SmsBroadcastService.startService(context)
         }
     }
 }

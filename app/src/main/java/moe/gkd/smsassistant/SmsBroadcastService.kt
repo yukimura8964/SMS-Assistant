@@ -3,6 +3,7 @@ package moe.gkd.smsassistant
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
@@ -12,6 +13,17 @@ import androidx.core.app.NotificationCompat
 
 
 class SmsBroadcastService : Service() {
+    companion object {
+        fun startService(context: Context) {
+            val serviceIntent = Intent(context, SmsBroadcastService::class.java)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                context.startForegroundService(serviceIntent)
+            } else {
+                context.startService(serviceIntent)
+            }
+        }
+    }
+
     private val TAG = this::class.java.simpleName
     private val CHANNEL_ID by lazy {
         packageName + ".permanent"
