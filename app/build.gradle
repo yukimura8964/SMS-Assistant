@@ -1,6 +1,45 @@
+import com.google.gson.Gson
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+
+class SignInfo {
+    public String storeFile;
+    public String storePassword;
+    public String keyAlias;
+    public String keyPassword;
+}
+
+ext.signinfo = null;
+
+def SignInfo parseSignInfo() {
+    if (signinfo == null) {
+        String str = ""
+        def sign = file("sign.json")
+        sign.eachLine { line ->
+            str += line
+        }
+        signinfo = new Gson().fromJson(str, SignInfo.class);
+    }
+    return signinfo;
+}
+
+def getMyStoreFile() {
+    return parseSignInfo().storeFile;
+}
+
+def getMyStorePassword() {
+    return parseSignInfo().storePassword;
+}
+
+def getMyKeyAlias() {
+    return parseSignInfo().keyAlias;
+}
+
+def getMyKeyPassword() {
+    return parseSignInfo().keyPassword;
+}
 
 android {
     compileSdkVersion 30
@@ -22,6 +61,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    signingConfigs {
+        release {
+            storeFile file(getMyStoreFile())
+            storePassword getMyStorePassword()
+            keyAlias getMyKeyAlias()
+            keyPassword getMyKeyPassword()
+        }
+        debug {
+            storeFile file(getMyStoreFile())
+            storePassword getMyStorePassword()
+            keyAlias getMyKeyAlias()
+            keyPassword getMyKeyPassword()
+        }
+    }
 }
 
 dependencies {
@@ -33,5 +86,4 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
 }
