@@ -57,24 +57,22 @@ android {
     viewBinding {
         enabled = true
     }
+    signingConfigs {
+        signKey {
+            storeFile file(getMyStoreFile())
+            storePassword getMyStorePassword()
+            keyAlias getMyKeyAlias()
+            keyPassword getMyKeyPassword()
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    signingConfigs {
-        release {
-            storeFile file(getMyStoreFile())
-            storePassword getMyStorePassword()
-            keyAlias getMyKeyAlias()
-            keyPassword getMyKeyPassword()
+            signingConfig signingConfigs.signKey
         }
         debug {
-            storeFile file(getMyStoreFile())
-            storePassword getMyStorePassword()
-            keyAlias getMyKeyAlias()
-            keyPassword getMyKeyPassword()
+            signingConfig signingConfigs.signKey
         }
     }
     compileOptions {
@@ -122,4 +120,6 @@ dependencies {
     //stetho
     implementation("com.facebook.stetho:stetho:${stetho_version}")
     implementation("com.facebook.stetho:stetho-okhttp3:${stetho_version}")
+    //javamail
+    implementation("com.sun.mail:javax.mail:1.6.2")
 }
