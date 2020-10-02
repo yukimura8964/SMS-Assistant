@@ -10,6 +10,8 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import moe.gkd.smsassistant.event.SmsBroadcastServiceStatusEvent
+import org.greenrobot.eventbus.EventBus
 
 
 class SmsBroadcastService : Service() {
@@ -22,6 +24,13 @@ class SmsBroadcastService : Service() {
                 context.startService(serviceIntent)
             }
         }
+
+        fun stopService(context: Context) {
+            val serviceIntent = Intent(context, SmsBroadcastService::class.java)
+            context.stopService(serviceIntent)
+        }
+
+        public var isRunning = false
     }
 
     private val TAG = this::class.java.simpleName
@@ -40,12 +49,16 @@ class SmsBroadcastService : Service() {
     override fun onCreate() {
         super.onCreate()
         Log.e(TAG, "onCreate()")
+        isRunning = true
         setForegroundService()
         registerSmsReceiver()
+        EventBus.getDefault().post(SmsBroadcastServiceStatusEvent(true))
     }
 
     override fun onDestroy() {
         unregisterReceiver(smsBroadcastReceiver)
+        isRunning = false
+        EventBus.getDefault().post(SmsBroadcastServiceStatusEvent(false))
         super.onDestroy()
     }
 
