@@ -28,10 +28,7 @@ class SmsBroadcastService : Service() {
     private val CHANNEL_ID by lazy {
         packageName + ".permanent"
     }
-    private val NOTIFICATION_ID by lazy {
-        0x8848
-    }
-
+    private val NOTIFICATION_ID = 0x8848
     private val smsBroadcastReceiver by lazy {
         SmsBroadcastReceiver()
     }
