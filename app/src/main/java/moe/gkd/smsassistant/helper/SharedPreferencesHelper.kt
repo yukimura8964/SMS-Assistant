@@ -29,7 +29,7 @@ object SharedPreferencesHelper {
         var smtpHost by string()
 
         //smtp服务器端口
-        var smtpPort by int()
+        var smtpPort by string()
 
         //邮箱账号
         var emailUsername by string()
