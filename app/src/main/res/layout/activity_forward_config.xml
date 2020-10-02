@@ -17,7 +17,7 @@
         android:id="@+id/emailForwardCheckbox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="开启邮件转发" />
+        android:text="开启邮件转发)" />
 
     <LinearLayout
         android:id="@+id/emailForwardLayout"
@@ -74,7 +74,7 @@
                 android:id="@+id/smtpPort"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="端口"
+                android:hint="端口(必须启用tls)"
                 android:inputType="number"
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -104,5 +104,11 @@
                 android:inputType="textNoSuggestions"
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/emailTest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试发送邮件" />
     </LinearLayout>
 </LinearLayout>

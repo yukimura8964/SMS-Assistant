@@ -18,6 +18,24 @@ object SharedPreferencesHelper {
 
         //是否启用邮件转发
         var isEnableEmailForward by boolean()
+
+        //接收的邮件地址
+        var toEmailAddress by string()
+
+        //发送的邮件地址
+        var fromEmailAddress by string()
+
+        //smtp服务器地址
+        var smtpHost by string()
+
+        //smtp服务器端口
+        var smtpPort by int()
+
+        //邮箱账号
+        var emailUsername by string()
+
+        //邮箱密码
+        var emailPassword by string()
     }
 
     abstract class Delegates {
