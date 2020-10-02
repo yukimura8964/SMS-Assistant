@@ -6,6 +6,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Color
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
@@ -76,7 +77,7 @@ class SmsBroadcastService : Service() {
     private fun setForegroundService() {
         createNotificationChannel()
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
-        builder.setSmallIcon(R.drawable.ic_launcher_background) //设置通知图标
+        builder.setSmallIcon(R.mipmap.ic_notification) //设置通知图标
             .setContentTitle(getString(R.string.app_name))//设置通知标题
             .setContentText("短信转发已启用")//设置通知内容
             .setAutoCancel(false) //用户触摸时，自动关闭
