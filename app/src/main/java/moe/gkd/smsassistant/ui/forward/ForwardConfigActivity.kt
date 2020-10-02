@@ -49,7 +49,8 @@ class ForwardConfigActivity : BaseActivity<ActivityForwardConfigBinding>() {
                 smtpPort = smtpPort,
                 username = emailUsername,
                 password = emailPassword,
-                object : SingleObserver<Unit> {
+                isTest = true,
+                observer = object : SingleObserver<Unit> {
                     override fun onSubscribe(d: Disposable) {
                         progressDialog.show()
                     }

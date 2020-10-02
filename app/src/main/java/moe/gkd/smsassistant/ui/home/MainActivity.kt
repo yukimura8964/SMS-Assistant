@@ -7,14 +7,22 @@ import android.graphics.Color
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
+import io.reactivex.Scheduler
+import io.reactivex.SingleObserver
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import moe.gkd.smsassistant.IApplication
 import moe.gkd.smsassistant.R
 import moe.gkd.smsassistant.SmsBroadcastService
 import moe.gkd.smsassistant.base.BaseActivity
 import moe.gkd.smsassistant.databinding.ActivityMainBinding
 import moe.gkd.smsassistant.entity.ConfigStatusEntity
+import moe.gkd.smsassistant.event.ForwardSuccessEvent
 import moe.gkd.smsassistant.event.SmsBroadcastServiceStatusEvent
 import moe.gkd.smsassistant.helper.SharedPreferencesHelper
+import moe.gkd.smsassistant.sql.AppDatabase
 import moe.gkd.smsassistant.ui.forward.ForwardConfigActivity
 import moe.gkd.smsassistant.ui.home.adapter.ConfigListAdapter
 import org.greenrobot.eventbus.Subscribe
@@ -73,6 +81,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         super.onResume()
         loadConfigList()
         loadServiceStatus()
+        loadForwardCount()
     }
 
     private fun loadConfigList() {
@@ -103,8 +112,31 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
+    private fun loadForwardCount() {
+        AppDatabase.getInstance().forwardLogDao().getCount().subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : SingleObserver<Int> {
+                override fun onSubscribe(d: Disposable) {
+
+                }
+
+                override fun onSuccess(t: Int) {
+                    binding.forwardCount.text = "$t"
+                }
+
+                override fun onError(e: Throwable) {
+                }
+
+            })
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public fun onServiceStatusEvent(event: SmsBroadcastServiceStatusEvent) {
         loadServiceStatus(event.isRunning)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public fun onForwardSuccessEvent(event: ForwardSuccessEvent) {
+        loadForwardCount()
     }
 }

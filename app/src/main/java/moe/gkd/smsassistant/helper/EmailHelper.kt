@@ -16,7 +16,6 @@ object EmailHelper {
         smtpPort: String,
     ): Session {
         val props = Properties()
-//        props.setProperty("mail.smtp.host", smtpHost)
         props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory")
         props.setProperty("mail.smtp.socketFactory.fallback", "false")
         props.setProperty("mail.smtp.port", smtpPort)
@@ -36,6 +35,7 @@ object EmailHelper {
         smtpPort: String? = SharedPreferencesHelper.Settings.smtpPort,
         username: String? = SharedPreferencesHelper.Settings.emailUsername,
         password: String? = SharedPreferencesHelper.Settings.emailPassword,
+        isTest: Boolean,
         observer: SingleObserver<Unit>
     ) {
         Single.create(SingleOnSubscribe<Unit> { emitter ->
@@ -65,8 +65,9 @@ object EmailHelper {
             } catch (e: Exception) {
                 emitter.onError(e)
             }
-        }).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+        })
+            .subscribeOn(Schedulers.io())
+            .observeOn(if (isTest) AndroidSchedulers.mainThread() else Schedulers.io())
             .subscribe(observer)
     }
 }

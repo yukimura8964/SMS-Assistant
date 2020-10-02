@@ -3,6 +3,7 @@ import com.google.gson.Gson
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 class SignInfo {
     public String storeFile;
@@ -108,7 +109,7 @@ dependencies {
     implementation("com.google.code.gson:gson:$gson_version")
     //room
     implementation("androidx.room:room-runtime:${room_version}")
-    annotationProcessor("androidx.room:room-compiler:${room_version}")
+    kapt("androidx.room:room-compiler:${room_version}")
     implementation("androidx.room:room-ktx:${room_version}")
     implementation("androidx.room:room-rxjava2:${room_version}")
     testImplementation("androidx.room:room-testing:${room_version}")
