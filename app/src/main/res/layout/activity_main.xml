@@ -112,10 +112,12 @@
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             app:scale="1">
-            <!--       todo     转发配置-->
+
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/configRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:overScrollMode="never" />
         </moe.gkd.smsassistant.ui.widget.SquareCardView>
 
         <moe.gkd.smsassistant.ui.widget.SquareCardView
