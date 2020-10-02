@@ -17,7 +17,7 @@
         android:id="@+id/emailForwardCheckbox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="开启邮件转发)" />
+        android:text="开启邮件转发" />
 
     <LinearLayout
         android:id="@+id/emailForwardLayout"
